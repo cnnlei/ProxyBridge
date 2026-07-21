@@ -3287,6 +3287,10 @@ static DWORD WINAPI udp_relay_server(LPVOID arg)
             continue;
         }
 
+        // Socket descriptors may be reused immediately after closesocket().
+        // If an association is recreated, the current select() result is stale.
+        BOOL udp_socket_set_changed = FALSE;
+
         // Check if any SOCKS5 proxy TCP control socket disconnected
         for (int i = 0; i < g_proxy_config_count; i++)
         {
@@ -3309,9 +3313,15 @@ static DWORD WINAPI udp_relay_server(LPVOID arg)
                     cfg->udp_connected = FALSE;
                     // Reconnect immediately so the next client packet is not dropped.
                     establish_udp_associate_for_config(cfg);
+                    udp_socket_set_changed = TRUE;
                 }
             }
         }
+
+        // read_fds contains readiness results for the sockets that existed when
+        // select() was called. Rebuild it before inspecting newly created sockets.
+        if (udp_socket_set_changed)
+            continue;
 
         // Check if packet is from local application
         if (FD_ISSET(udp_relay_socket, &read_fds))
