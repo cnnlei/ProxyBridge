@@ -3398,6 +3398,10 @@ static DWORD WINAPI udp_relay_server(LPVOID arg)
                             sendto(cfg->udp_send_sock, (char*)send_buf, 10 + recv_len, 0,
                                    (struct sockaddr *)&cfg->udp_relay_addr, sizeof(cfg->udp_relay_addr));
                         }
+
+                        // Association sockets were replaced after select() returned.
+                        // Rebuild read_fds before inspecting any replacement socket.
+                        continue;
                     }
                 }
             }
