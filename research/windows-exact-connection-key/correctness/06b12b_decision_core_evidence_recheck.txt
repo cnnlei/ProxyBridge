@@ -1,0 +1,87 @@
+﻿6B.12B EXACT DECISION CORE EVIDENCE RECHECK
+UTC: 2026-07-28T21:00:05.3907710Z
+
+ORIGINAL_REPORT_SHA256: EA3AC6839BD8C01C292392600AFDFE3BE9051100494B0FD8CE863D80740ED5C7
+CANDIDATE_DLL_SIZE: 92672
+CANDIDATE_DLL_SHA256: 78BD8E56EE0BB9BEB9555C9A396C480BA76CE513B57A44BAA620891981BD0FED
+
+RECORDED_REPEAT_RUNS_EXIT_0: 10
+ALL_RUNS_PASSED: 10
+NONQUIET_COUNT_VERIFICATION:
+PASS protocol_collision
+PASS reverse_insertion_order
+PASS different_ports_control
+PASS ipv4_ipv6_separation
+PASS different_local_ipv4
+PASS different_local_ipv6
+PASS exact_update
+PASS one_field_difference
+PASS remove_tcp_preserves_udp
+PASS remove_family_address_preserves_other
+PASS cleanup_stale_fresh_same_bucket
+PASS deliberate_hash_collision
+PASS clear_and_reuse
+PASS consistent_snapshot
+PASS reverse_udp_filtering
+PASS reverse_udp_newest
+PASS get_full_timestamp_regression
+PASS upsert_timestamp_regression
+PASS concurrent_monotonic_touch
+PASS equal_timestamp
+PASS invalid_protocol_family
+PASS null_invalid_arguments
+PASS cleanup_bucket_chain
+PASS repeated_lifecycle
+PASS touch_tracked_updates_activity
+PASS touch_tracked_monotonic_older_and_equal
+PASS touch_tracked_rejects_untracked_without_mutation
+PASS touch_tracked_exact_key_isolation
+PASS touch_tracked_invalid_inputs
+PASS touch_tracked_concurrent_cas_max
+PASS decision_round_trip_and_overwrite
+PASS invalid_decision_rejected_without_mutation
+PASS legacy_upsert_decision_none_tracked
+PASS decision_exact_key_separation
+PASS touch_decision_full_snapshot_monotonic
+PASS touch_decision_mismatch_and_invalid_inputs
+PASS clear_decision_preserves_value_and_tracked
+PASS clear_mismatch_then_fresh_overwrite
+PASS udp_tracked_reverse_ignores_decision
+PASS touch_decision_concurrent_cas_max
+PASS concurrent_touch_conditional_clear_consistency
+SUMMARY: 41 passed, 0 failed
+COUNT_VERIFICATION_EXIT_CODE: 0
+
+OBJDUMP_EXIT_CODE: 0
+OBJDUMP_RAW_SHA256: CDA37FBD558B0AFD2D2D331C10A30A4F8720981E0B0912876D9AF3EB8D7B1BBA
+EXPORT_COUNT: 19
+EXPORTS:
+ProxyBridge_AddProxyConfig
+ProxyBridge_AddRule
+ProxyBridge_ClearConnectionLogs
+ProxyBridge_DeleteProxyConfig
+ProxyBridge_DeleteRule
+ProxyBridge_DisableRule
+ProxyBridge_EditProxyConfig
+ProxyBridge_EditRule
+ProxyBridge_EnableRule
+ProxyBridge_GetRulePosition
+ProxyBridge_MoveRuleToPosition
+ProxyBridge_SetConnectionCallback
+ProxyBridge_SetLocalhostViaProxy
+ProxyBridge_SetLogCallback
+ProxyBridge_SetTrafficLoggingEnabled
+ProxyBridge_Start
+ProxyBridge_Stop
+ProxyBridge_TestProxyConfig
+ProxyBridge_TestProxyConfigEx
+MISSING_EXPORTS: 0
+UNEXPECTED_EXPORTS: 0
+
+TEST_REPEAT_GATE: PASS
+TEST_COUNT_GATE: PASS
+DLL_BUILD_GATE: PASS
+EXPORT_GATE: PASS
+CANDIDATE_DLL_EXECUTED: NO
+CANDIDATE_DLL_DEPLOYED: NO
+GATE_RESULT: PASS

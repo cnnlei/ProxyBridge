@@ -1,0 +1,122 @@
+﻿6B.12D TCP EXACT DECISION PACKET PROBE
+UTC: 2026-07-29T07:23:59.6207895Z
+SHA256: DA649ECFA91AA9E2D6FB7715AAE2956DCE1F57AB0F96EF02DD033DD07983A222  D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\connection_table.h
+SHA256: 93AF004E0D40AF69757EA8FF4E2E6B0C062D41D5A565A07277F1591C9C0E7347  D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\connection_table.c
+SHA256: 91DF5CB3274141AA09AE16E06CABA3719B2284A475DF7977D634ED6A1AF70627  D:\ProxyBridge-Lab\ConnHash-Fix\artifacts\06b12d_tcp_packet_probe\src\tcp_exact_decision_packet_probe.c
+SHA256: C25A91D969ED93518F16D7B84364B60968170EC278F740BB4CC0BC2AE37E304D  D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\ProxyBridge.c
+FORBIDDEN_CALL_COUNT ProxyBridge_Start(: 0
+FORBIDDEN_CALL_COUNT ProxyBridge_Stop(: 0
+FORBIDDEN_CALL_COUNT WinDivertOpen(: 0
+FORBIDDEN_CALL_COUNT socket(: 0
+FORBIDDEN_CALL_COUNT connect(: 0
+FORBIDDEN_CALL_COUNT bind(: 0
+FORBIDDEN_CALL_COUNT listen(: 0
+FORBIDDEN_CALL_COUNT accept(: 0
+REQUIRED_TEXT_COUNT packet_processor(NULL): 1
+REQUIRED_TEXT_COUNT probe_WinDivertRecv: 3
+REQUIRED_TEXT_COUNT #include "ProxyBridge.c": 1
+REQUIRED_TEXT_COUNT probe_WinDivertSend: 3
+REQUIRED_TEXT_COUNT probe_GetExtendedTcpTable: 3
+
+BUILD COMMAND:
+E:\progi\mingw64\bin\gcc.exe -m64 -std=gnu11 -O2 -Wall -Wextra -Wno-unused-parameter -Wno-unknown-pragmas -D_WIN32_WINNT=0x0601 -ID:\ProxyBridge-Lab\ConnHash-Fix\Windows\src -IC:\WinDivert-2.2.2-A\include D:\ProxyBridge-Lab\ConnHash-Fix\artifacts\06b12d_tcp_packet_probe\src\tcp_exact_decision_packet_probe.c D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\connection_table.c -LC:\WinDivert-2.2.2-A\x64 -lWinDivert -lws2_32 -liphlpapi -o D:\ProxyBridge-Lab\ConnHash-Fix\artifacts\06b12d_tcp_packet_probe\tcp_exact_decision_packet_probe.exe
+
+In file included from D:\ProxyBridge-Lab\ConnHash-Fix\artifacts\06b12d_tcp_packet_probe\src\tcp_exact_decision_packet_probe.c:55:
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c: In function 'packet_processor':
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c:1716:32: warning: unused variable 'src_port' [-Wunused-variable]
+ 1716 |                         UINT16 src_port = ntohs(udp_header->SrcPort);
+      |                                ^~~~~~~~
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c: In function 'flush_dns_resolver_cache':
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c:6378:21: warning: cast between incompatible function types from 'FARPROC' {aka 'long long int (*)()'} to 'BOOL (*)(void)' {aka 'int (*)(void)'} [-Wcast-function-type]
+ 6378 |     DnsFlushFn fn = (DnsFlushFn)GetProcAddress(dnsapi, "DnsFlushResolverCache");
+      |                     ^
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c: In function 'packet_processor':
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c:1786:94: warning: '%s' directive output may be truncated writing up to 255 bytes into a region of size between 113 and 115 [-Wformat-truncation=]
+ 1786 |                                         snprintf(proxy_info, sizeof(proxy_info), "Proxy %s://%s:%d (UDP)",
+      |                                                                                              ^~
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c:1786:82: note: directive argument in the range [0, 65535]
+ 1786 |                                         snprintf(proxy_info, sizeof(proxy_info), "Proxy %s://%s:%d (UDP)",
+      |                                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c:1786:41: note: 'snprintf' output between 22 and 283 bytes into a destination of size 128
+ 1786 |                                         snprintf(proxy_info, sizeof(proxy_info), "Proxy %s://%s:%d (UDP)",
+      |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1787 |                                             pcfg->type == PROXY_TYPE_HTTP ? "HTTP" : "SOCKS5",
+      |                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1788 |                                             pcfg->host, pcfg->port);
+      |                                             ~~~~~~~~~~~~~~~~~~~~~~~
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c:2099:90: warning: '%s' directive output may be truncated writing up to 255 bytes into a region of size between 113 and 115 [-Wformat-truncation=]
+ 2099 |                                     snprintf(proxy_info, sizeof(proxy_info), "Proxy %s://%s:%d",
+      |                                                                                          ^~
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c:2099:78: note: directive argument in the range [0, 65535]
+ 2099 |                                     snprintf(proxy_info, sizeof(proxy_info), "Proxy %s://%s:%d",
+      |                                                                              ^~~~~~~~~~~~~~~~~~
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c:2099:37: note: 'snprintf' output between 16 and 277 bytes into a destination of size 128
+ 2099 |                                     snprintf(proxy_info, sizeof(proxy_info), "Proxy %s://%s:%d",
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 2100 |                                         pcfg->type == PROXY_TYPE_HTTP ? "HTTP" : "SOCKS5",
+      |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 2101 |                                         pcfg->host, pcfg->port);
+      |                                         ~~~~~~~~~~~~~~~~~~~~~~~
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c:1563:90: warning: '%s' directive output may be truncated writing up to 255 bytes into a region of size between 113 and 115 [-Wformat-truncation=]
+ 1563 |                                     snprintf(proxy_info, sizeof(proxy_info), "Proxy %s://%s:%d",
+      |                                                                                          ^~
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c:1563:78: note: directive argument in the range [0, 65535]
+ 1563 |                                     snprintf(proxy_info, sizeof(proxy_info), "Proxy %s://%s:%d",
+      |                                                                              ^~~~~~~~~~~~~~~~~~
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c:1563:37: note: 'snprintf' output between 16 and 277 bytes into a destination of size 128
+ 1563 |                                     snprintf(proxy_info, sizeof(proxy_info), "Proxy %s://%s:%d",
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1564 |                                         pcfg->type == PROXY_TYPE_HTTP ? "HTTP" : "SOCKS5",
+      |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1565 |                                         pcfg->host, pcfg->port);
+      |                                         ~~~~~~~~~~~~~~~~~~~~~~~
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c:1271:155: warning: '%s' directive output may be truncated writing up to 255 bytes into a region of size between 113 and 115 [-Wformat-truncation=]
+ 1271 |                                 if (action6u==RULE_ACTION_PROXY){PROXY_CONFIG*pc=find_proxy_config(pcid6u);if(pc)snprintf(pinfo,sizeof(pinfo),"Proxy %s://%s:%d (UDP)",pc->type==PROXY_TYPE_HTTP?"HTTP":"SOCKS5",pc->host,pc->port);else snprintf(pinfo,sizeof(pinfo),"Proxy (UDP)");}
+      |                                                                                                                                                           ^~
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c:1271:143: note: directive argument in the range [0, 65535]
+ 1271 |                                 if (action6u==RULE_ACTION_PROXY){PROXY_CONFIG*pc=find_proxy_config(pcid6u);if(pc)snprintf(pinfo,sizeof(pinfo),"Proxy %s://%s:%d (UDP)",pc->type==PROXY_TYPE_HTTP?"HTTP":"SOCKS5",pc->host,pc->port);else snprintf(pinfo,sizeof(pinfo),"Proxy (UDP)");}
+      |                                                                                                                                               ^~~~~~~~~~~~~~~~~~~~~~~~
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src/ProxyBridge.c:1271:114: note: 'snprintf' output between 22 and 283 bytes into a destination of size 128
+ 1271 |                                 if (action6u==RULE_ACTION_PROXY){PROXY_CONFIG*pc=find_proxy_config(pcid6u);if(pc)snprintf(pinfo,sizeof(pinfo),"Proxy %s://%s:%d (UDP)",pc->type==PROXY_TYPE_HTTP?"HTTP":"SOCKS5",pc->host,pc->port);else snprintf(pinfo,sizeof(pinfo),"Proxy (UDP)");}
+      |                                                                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+BUILD_EXIT_CODE: 0
+
+RUNTIME OUTPUT:
+PASS ipv4_direct_ipv6_proxy
+PASS ipv6_proxy_ipv4_direct
+PASS ipv4_multiaddress_direct_proxy
+PASS ipv4_block_ipv6_direct
+PASS dual_direct_same_port
+PASS dual_proxy_same_port
+PASS terminal_decision_clear
+PASS midflow_ack_isolation
+PASS relay_response_ordering
+SUMMARY: 9 passed, 0 failed
+
+RUN_EXIT_CODE: 0
+
+PROBE_EXE_PATH: D:\ProxyBridge-Lab\ConnHash-Fix\artifacts\06b12d_tcp_packet_probe\tcp_exact_decision_packet_probe.exe
+PROBE_EXE_SIZE: 182306
+PROBE_EXE_SHA256: 48A98E312CF247AA4E6A30FECCFF020F21FADA82E93A4E7A1EC5867AAE6B484C
+
+REAL_PACKET_PROCESSOR_CALLED: YES
+REAL_CONNECTION_TABLE_USED: YES
+FAKE_WINDIVERT_RECV_SEND: YES
+FAKE_TCP_TABLE_USED: YES
+PROXYBRIDGE_START_CALLED: NO
+PROXYBRIDGE_STOP_CALLED: NO
+WINDIVERT_OPENED: NO
+REAL_NETWORK_TRAFFIC_CREATED: NO
+CANDIDATE_DLL_EXECUTED: NO
+CANDIDATE_DLL_DEPLOYED: NO
+
+POST_SHA256: DA649ECFA91AA9E2D6FB7715AAE2956DCE1F57AB0F96EF02DD033DD07983A222  D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\connection_table.h
+POST_SHA256: 93AF004E0D40AF69757EA8FF4E2E6B0C062D41D5A565A07277F1591C9C0E7347  D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\connection_table.c
+POST_SHA256: 91DF5CB3274141AA09AE16E06CABA3719B2284A475DF7977D634ED6A1AF70627  D:\ProxyBridge-Lab\ConnHash-Fix\artifacts\06b12d_tcp_packet_probe\src\tcp_exact_decision_packet_probe.c
+POST_SHA256: C25A91D969ED93518F16D7B84364B60968170EC278F740BB4CC0BC2AE37E304D  D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\ProxyBridge.c
+
+SOURCE_GATE: PASS
+BUILD_GATE: PASS
+PACKET_PATH_GATE: PASS
+GATE_RESULT: PASS

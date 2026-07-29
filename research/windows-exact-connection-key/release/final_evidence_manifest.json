@@ -1,0 +1,142 @@
+{
+  "schema": "proxybridge-final-validation-summary-v1",
+  "created_date": "2026-07-29",
+  "base_head": "1f18417c4075167d595a95e4ce9e3999e5dc8d6d",
+  "old_dll_sha256": "1B702EC855838514424BA76188ADF98A1CCE079E94EC8D3BDDA8AD1ECCF0F749",
+  "candidate_dll_sha256": "CC6A53988D6ECF2CD175D00CC8DBD0C4E29D21B0480AA9248E60202C8090BA83",
+  "complete_candidate_diff_sha256": "7E6398EB5A3774B8B381D6645AEFB01EF0B9C7C8795B13D3CFCE363B4FAF430C",
+  "fixed_endpoint": {
+    "old_successful": 120,
+    "candidate_successful": 120,
+    "old_median_total_ms": 458.7035,
+    "candidate_median_total_ms": 439.8815,
+    "old_p95_total_ms": 972.1251499999998,
+    "candidate_p95_total_ms": 921.66895,
+    "normalized_mean_per_size_improvement_percent": 0.37307965421305467,
+    "verdict": "PRACTICALLY_EQUIVALENT",
+    "total_wins_candidate_old_tie": [
+      56,
+      55,
+      9
+    ]
+  },
+  "gates": {
+    "old_collision_runtime": "CONFIRMED",
+    "unit_tests": "41/41 PASS, 10 repeated runs",
+    "tcp_orientation_probe": "5/5 PASS",
+    "udp_pktinfo_probe": "6/6 PASS",
+    "tcp_packet_path_probe": "9/9 PASS",
+    "canary_smoke": "PASS",
+    "performance": "PRACTICALLY_EQUIVALENT",
+    "publish_issue": "GO",
+    "full_candidate_collision_runtime": "PENDING",
+    "merge_without_caveats": "HOLD"
+  },
+  "evidence_files": [
+    {
+      "file": "collision.jsonl",
+      "size_bytes": 7385,
+      "sha256": "4FC3B118A4C7C9FA3DFDE5181EF3B81B838414BD6AAFC8A4C7A627CD8BD5454B"
+    },
+    {
+      "file": "proxybridge-c1(1).log",
+      "size_bytes": 4540,
+      "sha256": "FF2468A05F1495F9EF46D6F6F559FEF4131A036DDF17A43D7EE9B8D80327ED49"
+    },
+    {
+      "file": "05_connection_key_design.md",
+      "size_bytes": 62972,
+      "sha256": "A7217817665FB925627A201A80494B8012DF061A6F3068A55F8365DF64E0F21E"
+    },
+    {
+      "file": "06b10_tcp_endpoint_orientation_probe.md",
+      "size_bytes": 2386,
+      "sha256": "5673D3358F6BC8EB0C6407DACCE61C6D5BC0C25DCBFF536F1128E769F867FDD0"
+    },
+    {
+      "file": "06b11_udp_pktinfo_orientation_probe.md",
+      "size_bytes": 3626,
+      "sha256": "DB74430CE386FBCD701D75A34AACD38D133E8DD67CD20BAF5E13ADE1F8C630F8"
+    },
+    {
+      "file": "06b12b_decision_core_evidence_recheck.txt",
+      "size_bytes": 2749,
+      "sha256": "9CCFAA2A68E4571B231313AC7E368C1950CC23952CE7721100B383DD029CCC45"
+    },
+    {
+      "file": "06b12c_tcp_decision_path_build_tests.txt",
+      "size_bytes": 5644,
+      "sha256": "A3D1D121C501F7396216E923C1B38F6194F5E21808569EFC9F2207E408B22CE7"
+    },
+    {
+      "file": "06b12d_tcp_packet_probe_build_run.txt",
+      "size_bytes": 10665,
+      "sha256": "31E7C087F4A41C5E24A2E4FAFD2E10162370D03A7C649D8409F96B2225B54B15"
+    },
+    {
+      "file": "06b13_pre_runtime_manifest.txt",
+      "size_bytes": 1649,
+      "sha256": "B71C9C09D27DC0BAC784DBB92FDFFDFD46A7B71EA1F3C75494ABE38AB4A01D0E"
+    },
+    {
+      "file": "06b14a_canary_smoke.txt",
+      "size_bytes": 438,
+      "sha256": "2A098B499EE65C5B94A3F3254539AF7435A3D10BCB0B2F11A2B691C991017B6A"
+    },
+    {
+      "file": "benchmark_SmartProxyEquivalent_20260729_141629.csv",
+      "size_bytes": 27571,
+      "sha256": "FAB8D1C3E29B3809317A6D1385DB3DF9D5B9F0F61D22D1E14D47F9416F35862D"
+    },
+    {
+      "file": "benchmark_ProxyBridge_20260729_142054.csv",
+      "size_bytes": 28570,
+      "sha256": "55B6517A6707D0C08CD17823534D483F9467988D9D906C4A1252A497F8A9E0DC"
+    },
+    {
+      "file": "benchmark_ProxyBridge_20260729_143700.csv",
+      "size_bytes": 28582,
+      "sha256": "DBCC6239AB31A2F68F4800767A50BAF82A2568E1644B8FCA2EC08A5E96844A93"
+    },
+    {
+      "file": "benchmark_ProxyBridge_20260729_143926.csv",
+      "size_bytes": 28558,
+      "sha256": "7A1B5EAF7D0A25A9DFD9B99FDA3D435E62F3CF4CFE86B6DEF73BB96E83060335"
+    },
+    {
+      "file": "fixed_endpoint_old_20260729_151313.csv",
+      "size_bytes": 38763,
+      "sha256": "0F74D9C1C2044EE5DD6984D84DC2C972CB59C7DC585720E5A0A93152DBBBAA20"
+    },
+    {
+      "file": "fixed_endpoint_old_20260729_151313_manifest.json",
+      "size_bytes": 1371,
+      "sha256": "0E7F71DE115CC1D3676CE90A1FF9C75EA2542F9A42E894128673BEFA9BCF3109"
+    },
+    {
+      "file": "fixed_endpoint_candidate_20260729_151549.csv",
+      "size_bytes": 40341,
+      "sha256": "7F59C04F7EB6325A8499F0D4312D4C7D7B7F35355338BE5FF02B2A76DABF4325"
+    },
+    {
+      "file": "fixed_endpoint_candidate_20260729_151549_manifest.json",
+      "size_bytes": 1405,
+      "sha256": "10C9B1AC935C36D0B5CCCBE7C3BB7701C3850A0AC24204FE348799747FFF4CBC"
+    },
+    {
+      "file": "fixed_endpoint_comparison_20260729_151717.csv",
+      "size_bytes": 2282,
+      "sha256": "A078A22DCA6C4CA9AD6CA85BE405546D306B3A614069D6818A236DEE64269D31"
+    },
+    {
+      "file": "fixed_endpoint_comparison_20260729_151717.md",
+      "size_bytes": 1834,
+      "sha256": "DC389B477EC3479DD148D4135A3C294EE9816E7042170039F9DAEABE0780D798"
+    },
+    {
+      "file": "fixed_endpoint_comparison_20260729_151717.json",
+      "size_bytes": 7639,
+      "sha256": "7F82BC0EC5DCC6709DF8EE2FA9075686C2B07789018F761C3233E093DDC8F24B"
+    }
+  ]
+}

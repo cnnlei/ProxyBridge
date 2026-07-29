@@ -1,0 +1,182 @@
+[
+  {
+    "path": "research/windows-exact-connection-key/design/05_connection_key_design.md",
+    "size": 62972,
+    "sha256": "A7217817665FB925627A201A80494B8012DF061A6F3068A55F8365DF64E0F21E"
+  },
+  {
+    "path": "research/windows-exact-connection-key/design/06b12_bitmap_reconciliation_audit.md",
+    "size": 13125,
+    "sha256": "28BD0A4778C0C5E35ECA82A1F8AAC9FED6CAE9100D9A234BA9C4318667648400"
+  },
+  {
+    "path": "research/windows-exact-connection-key/correctness/06b10_tcp_endpoint_orientation_probe.md",
+    "size": 2386,
+    "sha256": "5673D3358F6BC8EB0C6407DACCE61C6D5BC0C25DCBFF536F1128E769F867FDD0"
+  },
+  {
+    "path": "research/windows-exact-connection-key/correctness/06b10_tcp_endpoint_probe_run.txt",
+    "size": 10511,
+    "sha256": "A4B083F07F313EECC4CE2DE1F4CB3B25804C76A8B5A0367C8A84D137C52F2057"
+  },
+  {
+    "path": "research/windows-exact-connection-key/correctness/06b11_udp_pktinfo_orientation_probe.md",
+    "size": 3626,
+    "sha256": "DB74430CE386FBCD701D75A34AACD38D133E8DD67CD20BAF5E13ADE1F8C630F8"
+  },
+  {
+    "path": "research/windows-exact-connection-key/correctness/06b11_udp_pktinfo_probe_run.txt",
+    "size": 10535,
+    "sha256": "917D2FA2227432EC93B95A16E82D5ACF9F338377D6D296AA9668E212FC7822A5"
+  },
+  {
+    "path": "research/windows-exact-connection-key/correctness/06b12b_decision_core_evidence_recheck.txt",
+    "size": 2749,
+    "sha256": "9CCFAA2A68E4571B231313AC7E368C1950CC23952CE7721100B383DD029CCC45"
+  },
+  {
+    "path": "research/windows-exact-connection-key/correctness/06b12c_tcp_decision_path_build_tests.txt",
+    "size": 5644,
+    "sha256": "A3D1D121C501F7396216E923C1B38F6194F5E21808569EFC9F2207E408B22CE7"
+  },
+  {
+    "path": "research/windows-exact-connection-key/correctness/06b12d_tcp_packet_probe_build_run.txt",
+    "size": 10665,
+    "sha256": "31E7C087F4A41C5E24A2E4FAFD2E10162370D03A7C649D8409F96B2225B54B15"
+  },
+  {
+    "path": "research/windows-exact-connection-key/runtime-reproduction/collision.jsonl",
+    "size": 7385,
+    "sha256": "4FC3B118A4C7C9FA3DFDE5181EF3B81B838414BD6AAFC8A4C7A627CD8BD5454B"
+  },
+  {
+    "path": "research/windows-exact-connection-key/runtime-reproduction/control.jsonl",
+    "size": 8302,
+    "sha256": "663B5C60ADC1147A0DC2E4898EE1628293AC92F5B60283DEF234FC32D2E6D165"
+  },
+  {
+    "path": "research/windows-exact-connection-key/runtime-reproduction/endpoint.jsonl",
+    "size": 5112,
+    "sha256": "A77B6D0905FD43AEAD74323FCBAEEF2690DCE991F9BE5BCE1C7C9C71B7370963"
+  },
+  {
+    "path": "research/windows-exact-connection-key/runtime-reproduction/proxybridge-c1.log",
+    "size": 4540,
+    "sha256": "FF2468A05F1495F9EF46D6F6F559FEF4131A036DDF17A43D7EE9B8D80327ED49"
+  },
+  {
+    "path": "research/windows-exact-connection-key/runtime-reproduction/pb_c1_harness.c",
+    "size": 35704,
+    "sha256": "CF091CDEDC35DBC34D56562F9F94141CC6915F3A3455BDE90B62BBB85C1D025E"
+  },
+  {
+    "path": "research/windows-exact-connection-key/performance/external-web/benchmark_SmartProxyEquivalent.csv",
+    "size": 27571,
+    "sha256": "FAB8D1C3E29B3809317A6D1385DB3DF9D5B9F0F61D22D1E14D47F9416F35862D"
+  },
+  {
+    "path": "research/windows-exact-connection-key/performance/external-web/benchmark_candidate_before.csv",
+    "size": 28570,
+    "sha256": "55B6517A6707D0C08CD17823534D483F9467988D9D906C4A1252A497F8A9E0DC"
+  },
+  {
+    "path": "research/windows-exact-connection-key/performance/external-web/benchmark_old.csv",
+    "size": 28582,
+    "sha256": "DBCC6239AB31A2F68F4800767A50BAF82A2568E1644B8FCA2EC08A5E96844A93"
+  },
+  {
+    "path": "research/windows-exact-connection-key/performance/external-web/benchmark_old_manifest.txt",
+    "size": 951,
+    "sha256": "522E83D339C928F4A83D126DD0FED41C2CAD7D4D4D46A339D04F6E5EAE90D99C"
+  },
+  {
+    "path": "research/windows-exact-connection-key/performance/external-web/benchmark_candidate_after.csv",
+    "size": 28558,
+    "sha256": "7A1B5EAF7D0A25A9DFD9B99FDA3D435E62F3CF4CFE86B6DEF73BB96E83060335"
+  },
+  {
+    "path": "research/windows-exact-connection-key/performance/external-web/benchmark_candidate_after_manifest.txt",
+    "size": 971,
+    "sha256": "AC758BC0E64A74D9BECBCAFE04DBDE4790E5CB4401283F13E044FC71B01F54ED"
+  },
+  {
+    "path": "research/windows-exact-connection-key/performance/external-web/comparison_corrected.csv",
+    "size": 2510,
+    "sha256": "7389D714768AD217E9E63F402AC901E9BEA8705E532F3DB9409875C652D4A2C9"
+  },
+  {
+    "path": "research/windows-exact-connection-key/performance/external-web/comparison_corrected.md",
+    "size": 3570,
+    "sha256": "51E43D1152602E2CDCC52803B099BEC9398C86C40E72A79281934BA47A1CB5ED"
+  },
+  {
+    "path": "research/windows-exact-connection-key/performance/fixed-endpoint/fixed_endpoint_old.csv",
+    "size": 38763,
+    "sha256": "0F74D9C1C2044EE5DD6984D84DC2C972CB59C7DC585720E5A0A93152DBBBAA20"
+  },
+  {
+    "path": "research/windows-exact-connection-key/performance/fixed-endpoint/fixed_endpoint_old_manifest.json",
+    "size": 1371,
+    "sha256": "0E7F71DE115CC1D3676CE90A1FF9C75EA2542F9A42E894128673BEFA9BCF3109"
+  },
+  {
+    "path": "research/windows-exact-connection-key/performance/fixed-endpoint/fixed_endpoint_candidate.csv",
+    "size": 40341,
+    "sha256": "7F59C04F7EB6325A8499F0D4312D4C7D7B7F35355338BE5FF02B2A76DABF4325"
+  },
+  {
+    "path": "research/windows-exact-connection-key/performance/fixed-endpoint/fixed_endpoint_candidate_manifest.json",
+    "size": 1405,
+    "sha256": "10C9B1AC935C36D0B5CCCBE7C3BB7701C3850A0AC24204FE348799747FFF4CBC"
+  },
+  {
+    "path": "research/windows-exact-connection-key/performance/fixed-endpoint/fixed_endpoint_comparison.csv",
+    "size": 2282,
+    "sha256": "A078A22DCA6C4CA9AD6CA85BE405546D306B3A614069D6818A236DEE64269D31"
+  },
+  {
+    "path": "research/windows-exact-connection-key/performance/fixed-endpoint/fixed_endpoint_comparison.md",
+    "size": 1834,
+    "sha256": "DC389B477EC3479DD148D4135A3C294EE9816E7042170039F9DAEABE0780D798"
+  },
+  {
+    "path": "research/windows-exact-connection-key/performance/fixed-endpoint/fixed_endpoint_comparison.json",
+    "size": 7639,
+    "sha256": "7F82BC0EC5DCC6709DF8EE2FA9075686C2B07789018F761C3233E093DDC8F24B"
+  },
+  {
+    "path": "research/windows-exact-connection-key/release/06b13_complete_candidate_source.diff",
+    "size": 279043,
+    "sha256": "7E6398EB5A3774B8B381D6645AEFB01EF0B9C7C8795B13D3CFCE363B4FAF430C"
+  },
+  {
+    "path": "research/windows-exact-connection-key/release/06b13_pre_runtime_manifest.txt",
+    "size": 1649,
+    "sha256": "B71C9C09D27DC0BAC784DBB92FDFFDFD46A7B71EA1F3C75494ABE38AB4A01D0E"
+  },
+  {
+    "path": "research/windows-exact-connection-key/release/06b14a_canary_smoke.txt",
+    "size": 438,
+    "sha256": "2A098B499EE65C5B94A3F3254539AF7435A3D10BCB0B2F11A2B691C991017B6A"
+  },
+  {
+    "path": "research/windows-exact-connection-key/release/final_validation_report_ru.md",
+    "size": 9850,
+    "sha256": "D2730A3D80833D454B14A20F0C7A2ABB9D3D54B5F6C8299B5B97BE3110922EBF"
+  },
+  {
+    "path": "research/windows-exact-connection-key/release/final_evidence_manifest.json",
+    "size": 5064,
+    "sha256": "915544200562F79CB01BD3481F93591B9E362DCEF455B546DD9E8F55F482211D"
+  },
+  {
+    "path": "research/windows-exact-connection-key/issue/issue_209_final_comment.md",
+    "size": 6334,
+    "sha256": "D34F2089477EC8CD6E50BB6E16633E1E6CE97DAC5966F9D0383CB5976DD6E43D"
+  },
+  {
+    "path": "research/windows-exact-connection-key/README.md",
+    "size": 1695,
+    "sha256": "74B4D8C7D044CC349111828E2EF36E3E71453093CF57546AD83A88209CA486BF"
+  }
+]

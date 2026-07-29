@@ -9,7 +9,10 @@ param(
 
 $WinDivertPath = "C:\WinDivert-2.2.2-A"
 $SourcePath = "src"
-$SourceFile = "ProxyBridge.c"
+$SourceFiles = @("ProxyBridge.c", "connection_table.c")
+$SourceArguments = ($SourceFiles | ForEach-Object {
+    '"{0}"' -f (Join-Path $SourcePath $_)
+}) -join " "
 $OutputDLL = "ProxyBridgeCore.dll"
 $OutputDir = "output"
 
@@ -59,11 +62,11 @@ function Compile-MSVC {
     $script:foundVcvarsPath = $vcvarsPath
     $script:foundArch = $Arch
 
-    $clArgs = "/nologo /O2 /Ot /GL /Gy /W4 /wd4100 /wd4189 /wd4267 /wd4244 /wd4996 " +
+    $clArgs = "/nologo /O2 /Ot /GL /Gy /W4 /std:c11 /wd4100 /wd4189 /wd4267 /wd4244 /wd4996 " +
               "/D_CRT_SECURE_NO_WARNINGS /D_WINSOCK_DEPRECATED_NO_WARNINGS /DPROXYBRIDGE_EXPORTS /DNDEBUG " +
               "/arch:SSE2 /fp:fast /GS /guard:cf /Qpar " +
               "/I`"$WinDivertPath\include`" " +
-              "$SourcePath\$SourceFile " +
+              "$SourceArguments " +
               "/LD " +
               "/link /LTCG /OPT:REF /OPT:ICF /RELEASE /DYNAMICBASE /NXCOMPAT " +
               "/LIBPATH:`"$WinDivertPath\$Arch`" " +
@@ -95,7 +98,7 @@ function Compile-GCC {
 
     $cmd = "gcc -shared -O2 -flto -s -Wall -D_WIN32_WINNT=0x0601 -DPROXYBRIDGE_EXPORTS " +
            "-I`"$WinDivertPath\include`" " +
-           "$SourcePath\$SourceFile " +
+           "$SourceArguments " +
            "-L`"$WinDivertPath\$Arch`" " +
            "-lWinDivert -lws2_32 -liphlpapi " +
            "-o $OutputDLL"
@@ -139,10 +142,10 @@ function Sign-Binary {
     $exitCode = $LASTEXITCODE
 
     if ($exitCode -eq 0) {
-        Write-Host "    ✓ Signed successfully" -ForegroundColor Green
+        Write-Host "    OK: Signed successfully" -ForegroundColor Green
         return $true
     } else {
-        Write-Host "    ✗ Signing failed: $result" -ForegroundColor Red
+        Write-Host "    ERROR: Signing failed: $result" -ForegroundColor Red
         return $false
     }
 }

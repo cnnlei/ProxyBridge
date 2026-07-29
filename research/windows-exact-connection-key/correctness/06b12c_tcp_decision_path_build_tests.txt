@@ -1,0 +1,113 @@
+﻿6B.12C TCP EXACT DECISION PATH BUILD/TEST GATE
+UTC: 2026-07-29T06:00:38.9121265Z
+SHA256: 1133D1D0A999464590D750CC36A5773812ED1D5B98F604F972459CA44218D350  D:\ProxyBridge-Lab\ConnHash-Fix\Windows\tests\run_connection_table_tests.ps1
+SHA256: C25A91D969ED93518F16D7B84364B60968170EC278F740BB4CC0BC2AE37E304D  D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\ProxyBridge.c
+SHA256: DA649ECFA91AA9E2D6FB7715AAE2956DCE1F57AB0F96EF02DD033DD07983A222  D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\connection_table.h
+SHA256: 9B7125B8E6912224F3F68B1CD0547E1C2F77852B2F0A971BE91F3A9437CD21B6  D:\ProxyBridge-Lab\ConnHash-Fix\Windows\compile.ps1
+SHA256: 93AF004E0D40AF69757EA8FF4E2E6B0C062D41D5A565A07277F1591C9C0E7347  D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\connection_table.c
+SHA256: F44A1DF3B68AEB20C22A30EFA1314840D49261CAC5A0C8E5775BE574E9749446  D:\ProxyBridge-Lab\ConnHash-Fix\reports\06b12c_tcp_decision_path_delta.diff
+SHA256: 8A133635B53D243BF810274021F8495861318CCB77E282899A6BC73F0C4AF63C  D:\ProxyBridge-Lab\ConnHash-Fix\Windows\tests\connection_table_tests.c
+LEGACY_IDENTIFIER_COUNT port_decided_bitmap: 0
+LEGACY_IDENTIFIER_COUNT port_direct_bitmap: 0
+LEGACY_IDENTIFIER_COUNT port_is_decided: 0
+LEGACY_IDENTIFIER_COUNT port_is_direct: 0
+LEGACY_IDENTIFIER_COUNT port_set_decided: 0
+LEGACY_IDENTIFIER_COUNT port_set_direct: 0
+LEGACY_IDENTIFIER_COUNT port_clear: 0
+CALL_TEXT_COUNT connection_table_upsert_decision(: 2
+CALL_TEXT_COUNT connection_table_touch_tracked(: 4
+CALL_TEXT_COUNT connection_table_touch_decision(: 2
+CALL_TEXT_COUNT connection_table_upsert(: 2
+CALL_TEXT_COUNT connection_table_clear_decision_if_match(: 2
+
+UNIT TEST COMMAND:
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:\ProxyBridge-Lab\ConnHash-Fix\Windows\tests\run_connection_table_tests.ps1 -Repeat 1
+
+BUILD_COMMAND: "E:\progi\mingw64\bin\gcc.exe" "-m64" "-std=c11" "-O2" "-Wall" "-Wextra" "-Wpedantic" "-Werror" "-D_WIN32_WINNT=0x0601" "D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\connection_table.c" "D:\ProxyBridge-Lab\ConnHash-Fix\Windows\tests\connection_table_tests.c" "-o" "D:\ProxyBridge-Lab\ConnHash-Fix\Windows\tests\output\connection_table_tests_gcc.exe"
+BUILD_EXIT_CODE: 0
+TEST_COMMAND: "D:\ProxyBridge-Lab\ConnHash-Fix\Windows\tests\output\connection_table_tests_gcc.exe" 
+PASS protocol_collision
+PASS reverse_insertion_order
+PASS different_ports_control
+PASS ipv4_ipv6_separation
+PASS different_local_ipv4
+PASS different_local_ipv6
+PASS exact_update
+PASS one_field_difference
+PASS remove_tcp_preserves_udp
+PASS remove_family_address_preserves_other
+PASS cleanup_stale_fresh_same_bucket
+PASS deliberate_hash_collision
+PASS clear_and_reuse
+PASS consistent_snapshot
+PASS reverse_udp_filtering
+PASS reverse_udp_newest
+PASS get_full_timestamp_regression
+PASS upsert_timestamp_regression
+PASS concurrent_monotonic_touch
+PASS equal_timestamp
+PASS invalid_protocol_family
+PASS null_invalid_arguments
+PASS cleanup_bucket_chain
+PASS repeated_lifecycle
+PASS touch_tracked_updates_activity
+PASS touch_tracked_monotonic_older_and_equal
+PASS touch_tracked_rejects_untracked_without_mutation
+PASS touch_tracked_exact_key_isolation
+PASS touch_tracked_invalid_inputs
+PASS touch_tracked_concurrent_cas_max
+PASS decision_round_trip_and_overwrite
+PASS invalid_decision_rejected_without_mutation
+PASS legacy_upsert_decision_none_tracked
+PASS decision_exact_key_separation
+PASS touch_decision_full_snapshot_monotonic
+PASS touch_decision_mismatch_and_invalid_inputs
+PASS clear_decision_preserves_value_and_tracked
+PASS clear_mismatch_then_fresh_overwrite
+PASS udp_tracked_reverse_ignores_decision
+PASS touch_decision_concurrent_cas_max
+PASS concurrent_touch_conditional_clear_consistency
+SUMMARY: 41 passed, 0 failed
+RUN 1/1 EXIT_CODE: 0
+ALL_RUNS_PASSED: 1
+
+UNIT_TEST_EXIT_CODE: 0
+
+DLL BUILD COMMAND:
+E:\progi\mingw64\bin\gcc.exe -shared -O2 -flto -s -Wall -D_WIN32_WINNT=0x0601 -DPROXYBRIDGE_EXPORTS -ID:\ProxyBridge-Lab\ConnHash-Fix\Windows\src -IC:\WinDivert-2.2.2-A\include D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\ProxyBridge.c D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\connection_table.c -LC:\WinDivert-2.2.2-A\x64 -lWinDivert -lws2_32 -liphlpapi -o D:\ProxyBridge-Lab\ConnHash-Fix\artifacts\06b12c_tcp_decision_path\build\ProxyBridgeCore-06b12c.dll
+
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\ProxyBridge.c:15: warning: ignoring '#pragma comment ' [-Wunknown-pragmas]
+   15 | #pragma comment(lib, "iphlpapi.lib")
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\ProxyBridge.c:16: warning: ignoring '#pragma comment ' [-Wunknown-pragmas]
+   16 | #pragma comment(lib, "ws2_32.lib")
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\ProxyBridge.c: In function 'packet_processor':
+D:\ProxyBridge-Lab\ConnHash-Fix\Windows\src\ProxyBridge.c:1716:32: warning: unused variable 'src_port' [-Wunused-variable]
+ 1716 |                         UINT16 src_port = ntohs(udp_header->SrcPort);
+      |                                ^~~~~~~~
+
+DLL_BUILD_EXIT_CODE: 0
+
+OBJDUMP_EXIT_CODE: 0
+EXPORT_COUNT: 19
+EXPORTS:
+ProxyBridge_AddProxyConfig
+ProxyBridge_AddRule
+ProxyBridge_ClearConnectionLogs
+ProxyBridge_DeleteProxyConfig
+ProxyBridge_DeleteRule
+ProxyBridge_DisableRule
+ProxyBridge_EditProxyConfig
+ProxyBridge_EditRule
+ProxyBridge_EnableRule
+ProxyBridge_GetRulePosition
+ProxyBridge_MoveRuleToPosition
+ProxyBridge_SetConnectionCallback
+ProxyBridge_SetLocalhostViaProxy
+ProxyBridge_SetLogCallback
+ProxyBridge_SetTrafficLoggingEnabled
+ProxyBridge_Start
+ProxyBridge_Stop
+ProxyBridge_TestProxyConfig
+ProxyBridge_TestProxyConfigEx
+MISSING_EXPORTS: 0
+UNEXPECTED_EXPORTS: 0
