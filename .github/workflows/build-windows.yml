@@ -21,6 +21,51 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
+    - name: Apply issue 206 stale decision-cache fix
+      run: |
+        $path = 'Windows\src\ProxyBridge.c'
+        $s = (Get-Content $path -Raw) -replace "`r`n", "`n"
+
+        $old6 = @(
+          '                UINT16 sp = ntohs(tcp_header->SrcPort);',
+          '                UINT16 dp = ntohs(tcp_header->DstPort);',
+          '',
+          '                if (port_is_decided(sp))'
+        ) -join "`n"
+        $new6 = @(
+          '                UINT16 sp = ntohs(tcp_header->SrcPort);',
+          '                UINT16 dp = ntohs(tcp_header->DstPort);',
+          '',
+          '                // #206: a fresh SYN starts a new connection generation. Clear stale state.',
+          '                if (tcp_header->Syn && !tcp_header->Ack)',
+          '                    port_clear(sp);',
+          '',
+          '                if (port_is_decided(sp))'
+        ) -join "`n"
+        if (-not $s.Contains($old6)) { throw 'IPv6 patch anchor not found' }
+        $s = $s.Replace($old6, $new6)
+
+        $old4 = @(
+          '                if (tcp_header->Syn && !tcp_header->Ack)',
+          '                    remove_cached_pid(ip_header->SrcAddr, sp, FALSE);',
+          '',
+          '                if (port_is_decided(sp))'
+        ) -join "`n"
+        $new4 = @(
+          '                if (tcp_header->Syn && !tcp_header->Ack)',
+          '                {',
+          '                    remove_cached_pid(ip_header->SrcAddr, sp, FALSE);',
+          '                    // #206: recycled ports must not inherit old DIRECT/PROXY/BLOCK state.',
+          '                    port_clear(sp);',
+          '                }',
+          '',
+          '                if (port_is_decided(sp))'
+        ) -join "`n"
+        if (-not $s.Contains($old4)) { throw 'IPv4 patch anchor not found' }
+        $s = $s.Replace($old4, $new4)
+        Set-Content -Path $path -Value $s -NoNewline
+      shell: pwsh
+
     - name: Install NSIS
       run: |
         choco install nsis -y
@@ -72,10 +117,21 @@ jobs:
         .\compile.ps1 -NoSign
       shell: pwsh
 
+    - name: Add build metadata
+      run: |
+        "Base: dev / 4.0.13-Beta current native Win32 UI" | Set-Content Windows\output\BUILD-INFO.txt
+        "Fix: #206 fresh TCP SYN invalidates stale per-source-port decision cache for IPv4 and IPv6" | Add-Content Windows\output\BUILD-INFO.txt
+        "Source branch: windows-4.0.13-current-ui-fixed" | Add-Content Windows\output\BUILD-INFO.txt
+        Get-ChildItem Windows\output -File | Sort-Object Name | ForEach-Object {
+          $h = Get-FileHash $_.FullName -Algorithm SHA256
+          "$($h.Hash)  $($_.Name)"
+        } | Set-Content Windows\output\SHA256SUMS.txt
+      shell: pwsh
+
     - name: Upload artifacts
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
-        name: ProxyBridge-Build-${{ github.sha }}
+        name: ProxyBridge-4.0.13-Beta-CurrentUI-Fixed
         path: Windows/output/
         retention-days: 30
 
