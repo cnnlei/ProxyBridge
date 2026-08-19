@@ -1,0 +1,7 @@
+ProxyBridge Windows custom fixed build
+Base branch: dev / 4.0.13-Beta current native Win32 UI
+Base commit before build: 4722f2000b4f22cd2bb680d832189071ba28a338
+Fix: issue #206 stale per-source-port decision cache invalidated on fresh TCP SYN for IPv4 and IPv6.
+Current dev TCP/UDP + IPv4/IPv6 tracking improvements are retained.
+Build: GitHub Actions windows-latest, compile.ps1 -NoSign
+Note: unsigned binaries may trigger Windows SmartScreen.
