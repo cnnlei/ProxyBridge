@@ -1,0 +1,150 @@
+name: Build Current UI Fixed Windows Package
+
+on:
+  push:
+    branches:
+      - windows-4.0.13-current-ui-fixed
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Apply stale decision-cache fix without changing GUI
+        shell: pwsh
+        run: |
+          $path = 'Windows\src\ProxyBridge.c'
+          $s = (Get-Content $path -Raw) -replace "`r`n", "`n"
+
+          $old6 = @(
+            '                UINT16 sp = ntohs(tcp_header->SrcPort);',
+            '                UINT16 dp = ntohs(tcp_header->DstPort);',
+            '',
+            '                if (port_is_decided(sp))'
+          ) -join "`n"
+          $new6 = @(
+            '                UINT16 sp = ntohs(tcp_header->SrcPort);',
+            '                UINT16 dp = ntohs(tcp_header->DstPort);',
+            '',
+            '                // #206: a fresh SYN starts a new connection generation. Clear stale state.',
+            '                if (tcp_header->Syn && !tcp_header->Ack)',
+            '                    port_clear(sp);',
+            '',
+            '                if (port_is_decided(sp))'
+          ) -join "`n"
+          if (-not $s.Contains($old6)) { throw 'IPv6 patch anchor not found' }
+          $s = $s.Replace($old6, $new6)
+
+          $old4 = @(
+            '                if (tcp_header->Syn && !tcp_header->Ack)',
+            '                    remove_cached_pid(ip_header->SrcAddr, sp, FALSE);',
+            '',
+            '                if (port_is_decided(sp))'
+          ) -join "`n"
+          $new4 = @(
+            '                if (tcp_header->Syn && !tcp_header->Ack)',
+            '                {',
+            '                    remove_cached_pid(ip_header->SrcAddr, sp, FALSE);',
+            '                    // #206: recycled ports must not inherit old DIRECT/PROXY/BLOCK state.',
+            '                    port_clear(sp);',
+            '                }',
+            '',
+            '                if (port_is_decided(sp))'
+          ) -join "`n"
+          if (-not $s.Contains($old4)) { throw 'IPv4 patch anchor not found' }
+          $s = $s.Replace($old4, $new4)
+          Set-Content -Path $path -Value $s -NoNewline
+
+      - name: Install NSIS
+        shell: pwsh
+        run: choco install nsis -y
+
+      - name: Install NSIS EnVar plugin
+        shell: pwsh
+        run: |
+          $dir = "C:\Program Files (x86)\NSIS\Plugins\x86-unicode"
+          $url = "https://nsis.sourceforge.io/mediawiki/images/7/7f/EnVar_plugin.zip"
+          $expected = "E9AA92DE351345ED82795251D838F1AE9041BA35AF9D381A5780C7843B01F56A"
+          Invoke-WebRequest -Uri $url -OutFile EnVar.zip -UseBasicParsing
+          $actual = (Get-FileHash EnVar.zip -Algorithm SHA256).Hash
+          if ($actual -ne $expected) { throw "EnVar SHA256 mismatch: $actual" }
+          Expand-Archive EnVar.zip EnVar
+          New-Item -ItemType Directory -Force -Path $dir | Out-Null
+          Copy-Item "EnVar\Plugins\x86-unicode\EnVar.dll" $dir -Force
+
+      - name: Download WinDivert 2.2.2-A
+        shell: pwsh
+        run: |
+          $url = "https://github.com/basil00/WinDivert/releases/download/v2.2.2/WinDivert-2.2.2-A.zip"
+          $expected = "63CB41763BB4B20F600B6DE04E991A9C2BE73279E317D4D82F237B150C5F3F15"
+          Invoke-WebRequest -Uri $url -OutFile WinDivert.zip -UseBasicParsing
+          $actual = (Get-FileHash WinDivert.zip -Algorithm SHA256).Hash
+          if ($actual -ne $expected) { throw "WinDivert SHA256 mismatch: $actual" }
+          Expand-Archive WinDivert.zip C:\
+
+      - name: Build Windows binaries
+        shell: pwsh
+        run: |
+          cd Windows
+          .\compile.ps1 -NoSign
+
+      - name: Package repository downloads
+        shell: pwsh
+        run: |
+          $dest = 'Windows\fixed-build\4.0.13-Beta-CurrentUI-Fixed'
+          Remove-Item $dest -Recurse -Force -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force -Path $dest | Out-Null
+
+          Copy-Item 'Windows\output\ProxyBridge-Setup-4.0.13-Beta.exe' "$dest\ProxyBridge-Setup-4.0.13-Beta-CurrentUI-Fixed.exe"
+
+          $portable = 'portable-temp'
+          Remove-Item $portable -Recurse -Force -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force -Path $portable | Out-Null
+          Copy-Item 'Windows\output\ProxyBridge.exe' $portable
+          Copy-Item 'Windows\output\ProxyBridgeCore.dll' $portable
+          Copy-Item 'Windows\output\ProxyBridge_CLI.exe' $portable
+          Copy-Item 'Windows\output\WinDivert.dll' $portable
+          Copy-Item 'Windows\output\WinDivert64.sys' $portable
+          Compress-Archive -Path "$portable\*" -DestinationPath "$dest\ProxyBridge-4.0.13-Beta-CurrentUI-Portable-Fixed.zip" -Force
+
+          Compress-Archive -Path 'Windows\output\*' -DestinationPath "$dest\ProxyBridge-4.0.13-current-ui-fixed.zip" -Force
+
+          @(
+            'ProxyBridge Windows custom fixed build',
+            'Base branch: dev / 4.0.13-Beta current native Win32 UI',
+            "Base commit before build: $env:GITHUB_SHA",
+            'Fix: issue #206 stale per-source-port decision cache invalidated on fresh TCP SYN for IPv4 and IPv6.',
+            'Current dev TCP/UDP + IPv4/IPv6 tracking improvements are retained.',
+            'Build: GitHub Actions windows-latest, compile.ps1 -NoSign',
+            'Note: unsigned binaries may trigger Windows SmartScreen.'
+          ) | Set-Content "$dest\BUILD-INFO.txt"
+
+          Get-ChildItem $dest -File | Where-Object Name -ne 'SHA256SUMS.txt' | Sort-Object Name | ForEach-Object {
+            $h = Get-FileHash $_.FullName -Algorithm SHA256
+            "$($h.Hash)  $($_.Name)"
+          } | Set-Content "$dest\SHA256SUMS.txt"
+          Get-Content "$dest\SHA256SUMS.txt"
+
+      - name: Commit compiled files to ProxyBridge repository
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Windows/fixed-build/4.0.13-Beta-CurrentUI-Fixed
+          git commit -m "build: add Windows 4.0.13 current UI fixed package"
+          git push origin HEAD:$env:GITHUB_REF_NAME
+
+      - name: Upload Actions artifact too
+        uses: actions/upload-artifact@v4
+        with:
+          name: ProxyBridge-4.0.13-Beta-CurrentUI-Fixed
+          path: Windows/fixed-build/4.0.13-Beta-CurrentUI-Fixed/*
+          retention-days: 30
