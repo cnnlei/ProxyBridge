@@ -1,0 +1,104 @@
+name: Build and Store Windows Exact-Key Fixed
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install NSIS
+        shell: pwsh
+        run: choco install nsis -y
+
+      - name: Install NSIS EnVar plugin
+        shell: pwsh
+        run: |
+          $dir = "C:\Program Files (x86)\NSIS\Plugins\x86-unicode"
+          $url = "https://nsis.sourceforge.io/mediawiki/images/7/7f/EnVar_plugin.zip"
+          $expected = "E9AA92DE351345ED82795251D838F1AE9041BA35AF9D381A5780C7843B01F56A"
+          Invoke-WebRequest -Uri $url -OutFile EnVar.zip -UseBasicParsing
+          $actual = (Get-FileHash EnVar.zip -Algorithm SHA256).Hash
+          if ($actual -ne $expected) { throw "EnVar SHA256 mismatch: $actual" }
+          Expand-Archive EnVar.zip EnVar
+          New-Item -ItemType Directory -Force -Path $dir | Out-Null
+          Copy-Item "EnVar\Plugins\x86-unicode\EnVar.dll" $dir -Force
+
+      - name: Download WinDivert 2.2.2-A
+        shell: pwsh
+        run: |
+          $url = "https://github.com/basil00/WinDivert/releases/download/v2.2.2/WinDivert-2.2.2-A.zip"
+          $expected = "63CB41763BB4B20F600B6DE04E991A9C2BE73279E317D4D82F237B150C5F3F15"
+          Invoke-WebRequest -Uri $url -OutFile WinDivert.zip -UseBasicParsing
+          $actual = (Get-FileHash WinDivert.zip -Algorithm SHA256).Hash
+          if ($actual -ne $expected) { throw "WinDivert SHA256 mismatch: $actual" }
+          Expand-Archive WinDivert.zip C:\
+
+      - name: Build Windows package
+        shell: pwsh
+        run: |
+          cd Windows
+          .\compile.ps1 -NoSign
+
+      - name: Package files for repository
+        shell: pwsh
+        run: |
+          $dest = 'Windows\fixed-build\4.0.11-Beta-ExactKey-Fixed'
+          Remove-Item $dest -Recurse -Force -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force -Path $dest | Out-Null
+
+          $installer = Get-ChildItem 'Windows\output' -Filter 'ProxyBridge-Setup-*.exe' | Select-Object -First 1
+          if (-not $installer) { throw 'Installer not found in Windows/output' }
+          Copy-Item $installer.FullName "$dest\ProxyBridge-Setup-4.0.11-Beta-206-209-Fixed.exe"
+
+          $portable = 'portable-temp'
+          Remove-Item $portable -Recurse -Force -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force -Path $portable | Out-Null
+          @('ProxyBridge.exe','ProxyBridgeCore.dll','ProxyBridge_CLI.exe','WinDivert.dll','WinDivert64.sys') | ForEach-Object {
+            $p = Join-Path 'Windows\output' $_
+            if (Test-Path $p) { Copy-Item $p $portable }
+          }
+          Compress-Archive -Path "$portable\*" -DestinationPath "$dest\ProxyBridge-Windows-Portable-206-209-Fixed.zip" -Force
+          Compress-Archive -Path 'Windows\output\*' -DestinationPath "$dest\ProxyBridge-Windows-206-209-fixed.zip" -Force
+
+          @(
+            'ProxyBridge Windows exact-key fixed build',
+            'Source base: commit 50f176ded9b313a8bc2f14547c1d41731a11ae96',
+            'Version line: 4.0.11-Beta candidate',
+            'Fix: full exact endpoint key for connection tracking and decision state (#206/#209 candidate)',
+            'Key: transport protocol + address family + original local source address + local source port',
+            'Build: GitHub Actions windows-latest, Windows/compile.ps1 -NoSign',
+            'Note: unsigned binaries may trigger Windows SmartScreen.'
+          ) | Set-Content "$dest\BUILD-INFO.txt"
+
+          Get-ChildItem $dest -File | Where-Object Name -ne 'SHA256SUMS.txt' | Sort-Object Name | ForEach-Object {
+            $h = Get-FileHash $_.FullName -Algorithm SHA256
+            "$($h.Hash)  $($_.Name)"
+          } | Set-Content "$dest\SHA256SUMS.txt"
+          Get-Content "$dest\SHA256SUMS.txt"
+
+      - name: Commit compiled files to main
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f Windows/fixed-build/4.0.11-Beta-ExactKey-Fixed
+          git commit -m "build: add 4.0.11 exact-key Windows fixed package"
+          git push origin HEAD:main
+
+      - name: Upload Actions artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ProxyBridge-4.0.11-Beta-ExactKey-Fixed
+          path: Windows/fixed-build/4.0.11-Beta-ExactKey-Fixed/*
+          retention-days: 30
