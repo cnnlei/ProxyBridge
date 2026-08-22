@@ -1,0 +1,7 @@
+ProxyBridge Windows exact-key fixed build
+Source base: commit 50f176ded9b313a8bc2f14547c1d41731a11ae96
+Version line: 4.0.11-Beta candidate
+Fix: full exact endpoint key for connection tracking and decision state (#206/#209 candidate)
+Key: transport protocol + address family + original local source address + local source port
+Build: GitHub Actions windows-latest, Windows/compile.ps1 -NoSign
+Note: unsigned binaries may trigger Windows SmartScreen.
