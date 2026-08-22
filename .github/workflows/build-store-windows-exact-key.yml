@@ -3,6 +3,8 @@ name: Build and Store Windows Exact-Key Fixed
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -14,8 +16,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout main
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Install NSIS
         shell: pwsh
@@ -93,6 +97,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -f Windows/fixed-build/4.0.11-Beta-ExactKey-Fixed
+          if (git diff --cached --quiet) {
+            Write-Host 'Compiled files are already current.'
+            exit 0
+          }
           git commit -m "build: add 4.0.11 exact-key Windows fixed package"
           git push origin HEAD:main
 
